@@ -374,8 +374,6 @@ capabilities:
   google.domain.overview: "A domain's traffic, keywords & ad spend"
   google.domain.paid_keywords: "Keywords a domain bids on, with CPC"
   people.phone.find: "Find someone's phone number"
-  people.email.reverse: "Find the person behind an email address you already hold"
-  people.phone.reverse: "Find the person behind a phone number you already hold"
 
   # merged from social-posting proposed_capabilities (Postiz-informed, 2026-07-28)
   facebook.page.photo.create: "Publish a photo to your Page"
@@ -1116,6 +1114,7 @@ capabilities:
 
   # people
   people.decision_makers: "Rank a company's decision-makers"
+  people.profile.from_phone: "Find social profiles from a contact phone number."
   people.identity.resolve: "Resolve an email or profile to linked identities"
   people.lookalike: "Find contacts similar to seed profiles"
   people.school.clean: "Clean and standardize a school name"

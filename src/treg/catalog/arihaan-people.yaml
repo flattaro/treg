@@ -14,6 +14,7 @@ limits: "100 people per search page; 25 keys per lookup; 100 ids per fetch or ph
 pricing_url: https://people-api.arihaan.ai/pay-per-person
 endpoints:
   - id: arihaan-people.people.search
+    verified: '2026-10-28'
     added: '2026-10-28'
     example_response: examples/arihaan-people.people.search.json
     domain: people
@@ -62,6 +63,7 @@ endpoints:
     docs_url: https://people-api.arihaan.ai/docs
 
   - id: arihaan-people.people.count
+    verified: '2026-10-28'
     added: '2026-10-28'
     example_response: examples/arihaan-people.people.count.json
     domain: people
@@ -108,6 +110,7 @@ endpoints:
     docs_url: https://people-api.arihaan.ai/docs
 
   - id: arihaan-people.people.lookup.linkedin
+    verified: '2026-10-28'
     added: '2026-10-28'
     example_response: examples/arihaan-people.people.lookup.linkedin.json
     domain: people
@@ -123,7 +126,7 @@ endpoints:
       bodyType: json
       body:
         linkedin_urls: {type: "array[string]", required: true, min: 1, max: 25, note: "1 to 25 LinkedIn profile URLs", example: ["https://www.linkedin.com/in/example"]}
-    untestable: "needs a LinkedIn that exists in the dataset; no fixed example is published"
+    test_request: {body: {linkedin_urls: ["https://www.linkedin.com/in/example-person-zz9"]}}
     cost:
       type: per_call
       value: 0.025
@@ -137,22 +140,23 @@ endpoints:
     docs_url: https://people-api.arihaan.ai/docs
 
   - id: arihaan-people.people.lookup.email
+    verified: '2026-10-28'
     added: '2026-10-28'
     example_response: examples/arihaan-people.people.lookup.email.json
     domain: people
-    capability: people.email.reverse
+    capability: people.identity.resolve
     platform: people
     scope: any_account
     method: POST
     path: /v2/people/lookup
     body_allowlist: true
-    name: "Look people up by email address"
-    summary: "The people behind up to 25 email addresses, one result per key. A key can match up to 5 people, all returned for the one key price. Keys are normalised before matching."
+    name: "Reverse email lookup: LinkedIn profile from an email"
+    summary: "Find the person behind an email address: their LinkedIn URL, name, title and company, for up to 25 emails per call, one result per key. A key can match up to 5 people, all returned for the one key price. Keys are normalised before matching."
     input:
       bodyType: json
       body:
         emails: {type: "array[string]", required: true, min: 1, max: 25, note: "1 to 25 email addresses", example: ["name@example.com"]}
-    untestable: "needs a email that exists in the dataset; no fixed example is published"
+    test_request: {body: {emails: ["nobody-zz9@example.com"]}}
     cost:
       type: per_call
       value: 0.025
@@ -166,22 +170,23 @@ endpoints:
     docs_url: https://people-api.arihaan.ai/docs
 
   - id: arihaan-people.people.lookup.phone
+    verified: '2026-10-28'
     added: '2026-10-28'
     example_response: examples/arihaan-people.people.lookup.phone.json
     domain: people
-    capability: people.phone.reverse
+    capability: people.profile.from_phone
     platform: people
     scope: any_account
     method: POST
     path: /v2/people/lookup
     body_allowlist: true
-    name: "Look people up by phone number"
-    summary: "The people behind up to 25 phone numbers, one result per key. A key can match up to 5 people, all returned for the one key price. Keys are normalised before matching."
+    name: "Reverse phone lookup: LinkedIn profile from a phone"
+    summary: "Find the person behind a phone number: their LinkedIn URL, name, title and company, for up to 25 numbers per call, one result per key. A key can match up to 5 people, all returned for the one key price. Keys are normalised before matching."
     input:
       bodyType: json
       body:
         phones: {type: "array[string]", required: true, min: 1, max: 25, note: "1 to 25 phone numbers", example: ["+14155550100"]}
-    untestable: "needs a phone that exists in the dataset; no fixed example is published"
+    test_request: {body: {phones: ["+15550100100"]}}
     cost:
       type: per_call
       value: 0.025
@@ -253,6 +258,7 @@ endpoints:
     docs_url: https://people-api.arihaan.ai/docs
 
   - id: arihaan-people.meta
+    verified: '2026-10-28'
     added: '2026-10-28'
     example_response: examples/arihaan-people.meta.json
     domain: people
@@ -270,6 +276,7 @@ endpoints:
     docs_url: https://people-api.arihaan.ai/docs
 
   - id: arihaan-people.account.balance
+    verified: '2026-10-28'
     added: '2026-10-28'
     example_response: examples/arihaan-people.account.balance.json
     kind: account
