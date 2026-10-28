@@ -98,7 +98,7 @@ endpoints:
     method: GET
     path: /v1/jobs/preview
     name: "Search job postings with a description preview"
-    summary: "The same search, with description_snippet on every job: the first 300 characters of its description, from Workday, Greenhouse, Lever and more. For the full description text, ask us at https://jobs.arihaan.ai/contact?topic=full-descriptions&source=treg"
+    summary: "The same search, with description_snippet on every job: the first 300 characters of its description, from employers' own career sites. For the full description text, ask us at https://jobs.arihaan.ai/contact?topic=full-descriptions&source=treg"
     input:
       queryParams:
         title: {type: "array[string]", required: false, note: "job title keywords (repeat the parameter); up to 10", example: "data engineer"}
@@ -134,7 +134,7 @@ endpoints:
     method: POST
     path: /v1/jobs/search/preview
     name: "Search jobs with a JSON body and description preview"
-    summary: "The same search, with description_snippet on every job: the first 300 characters of its description, from Workday, Greenhouse, Lever and more. For the full description text, ask us at https://jobs.arihaan.ai/contact?topic=full-descriptions&source=treg"
+    summary: "The same search, with description_snippet on every job: the first 300 characters of its description, from employers' own career sites. For the full description text, ask us at https://jobs.arihaan.ai/contact?topic=full-descriptions&source=treg"
     input:
       bodyType: json
       body:
