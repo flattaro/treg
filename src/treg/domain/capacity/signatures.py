@@ -56,6 +56,8 @@ _TABLE: list[Signature] = [
     Signature("findymail", 402, r"not enough credits", "balance", tripwire=True),
     Signature("leadsforge", 402, r"insufficient_credits", "balance"),
     Signature("leadmagic", 402, r"insufficient_credits", "balance"),
+    # Arihaan People API: an empty prepaid balance is a 402 {"error": {"code": "insufficient_balance", ...}}.
+    Signature("arihaan-people", 402, r"insufficient_balance", "balance", tripwire=True),
     Signature("thecompaniesapi", 403, r"noCreditsRemaining", "balance", tripwire=True),
     Signature("companyenrich", 402, r"payment required", "balance", tripwire=True),
     Signature("akta", 402, r"insufficient credits", "balance"),
