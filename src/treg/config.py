@@ -308,6 +308,7 @@ class Settings(BaseSettings):
     platform_key_sixtyfour: str = ""  # x-api-key; monthly credits, free balance check
     platform_key_blitzapi: str = ""  # x-api-key; monthly record allowance, free key-info balance
     platform_key_arihaan_people: str = ""  # Bearer; prepaid USD balance, free GET /v2/balance
+    platform_key_mobiusengine_jobs: str = ""  # x-api-key; prepaid USD balance, free GET /v1/balance
     platform_key_anyapi: str = ""  # X-API-Key; prepaid USD wallet, exact charge settles from costUsd
     platform_key_dropleads: str = ""  # X-API-Key; PAYG credits priced in fx.yaml
     platform_key_quickenrich: str = ""  # Bearer; monthly subscription credits, not auto-top-up
@@ -321,6 +322,7 @@ class Settings(BaseSettings):
     platform_key_scrubby: str = ""  # x-api-key; prepaid verification credits
     platform_key_zerobounce: str = ""  # api_key query param; PAYG validation credits, Auto-Pay managed upstream
     platform_key_datagma: str = ""  # apiId query param; prepaid purchased credits, replenished manually
+    platform_key_dropcontact: str = ""  # X-Access-Token; Growth monthly credits with carry-over
     platform_key_leadmagic: str = ""
     platform_key_lusha: str = ""
     platform_key_pdl: str = ""
@@ -347,6 +349,7 @@ class Settings(BaseSettings):
     platform_key_oceanio: str = ""        # X-Api-Token; fx.yaml usd is null so tier 4 stays refused until priced
     platform_key_predictleads: str = ""   # base64 of "api_key:api_token" (HTTP Basic, like dataforseo)
     platform_key_findymail: str = ""      # Bearer key
+    platform_key_anymailfinder: str = ""  # raw Authorization key; prepaid credits
     platform_key_branddev: str = ""       # Bearer key
     platform_key_icypeas: str = ""        # raw key (Authorization, no Bearer)
     platform_key_leadsforge: str = ""     # Bearer key
@@ -359,6 +362,7 @@ class Settings(BaseSettings):
     # (tomba's data routes need the header pair; TOMBA.platform_extra_setting names this second slot)
     platform_key_influencersclub: str = ""  # Bearer key (dashboard JWT); creator discovery + enrichment, fx.yaml $0.598/credit
     platform_key_crustdata: str = ""  # Bearer key; every call also needs the pinned x-api-version header
+    platform_key_theirstack: str = ""  # Bearer key; jobs and companies draw API credits
     platform_key_aviato: str = ""     # Bearer key; $10 auto-top-up buys 1,000 credits
     platform_key_enrichlayer: str = ""  # Bearer; pay-as-you-go credits
     platform_key_exa: str = ""        # x-api-key; dollar-metered ($7/1k searches, $1/1k pages); settles from costDollars.total

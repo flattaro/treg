@@ -46,6 +46,9 @@ contracts:
     advice_unverified: "This address was found, not confirmed deliverable (verified != true). Send X-Treg-Route-Verify: true and treg checks it with treg.people.email.verify in the same call, or run that check yourself before outreach — a fraction of a cent, and it catches catch-all domains and dead mailboxes."
     # `X-Treg-Route-Verify`: checks every hit, a finder's own `verified` included; BounceBan first here only.
     check: {endpoint: treg.people.email.verify, field: email, prefer: [bounceban]}
+    # `X-Treg-Route-Confirm`: a hit counts only once a second provider returns the same address.
+    # Finders that guess from the same name patterns can still agree on a wrong one.
+    confirm: email
 
   people.email.find.personal:
     summary: "Find someone's personal email from their LinkedIn URL or work email — treg picks the provider (own keys first, then cheapest per hit) and names the one that served"
@@ -932,6 +935,19 @@ contracts:
     miss: "ads == []"
     idempotent: true
     prefer: [crawl4ai]
+
+  google.ads.transparency:
+    summary: "The ads Google Ads Transparency Center shows for one company domain — provider-native ad rows in `ads`"
+    identity:
+      - {company_domain: str}
+    filters: {}
+    output:
+      ads: {type: list, required: true, note: "the provider's own ad rows (creative id, format, advertiser…) — shapes differ per provider; raw is the same body"}
+      count: {type: int}
+      next_cursor: {type: str}
+    # No ads is a miss. Every child is free on an empty answer except a per_call one, which bills it.
+    miss: "ads == []"
+    idempotent: true
 
   google.maps.reviews:
     summary: "The reviews Google Maps shows for one place, by place id — provider-native review rows in `reviews`"
