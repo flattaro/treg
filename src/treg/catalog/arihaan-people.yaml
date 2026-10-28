@@ -151,7 +151,7 @@ endpoints:
     path: /v2/people/lookup
     body_allowlist: true
     name: "Reverse email lookup: LinkedIn profile from an email"
-    summary: "Find the person behind an email address: their LinkedIn URL, name, title and company, for up to 25 emails per call, one result per key. A key can match up to 5 people, all returned for the one key price. Keys are normalised before matching."
+    summary: "Find the person behind an email address: their LinkedIn URL, name, title and employer, for up to 25 emails per call, one result per key. A key can match up to 5 people, all returned for the one key price. Keys are normalised before matching."
     input:
       bodyType: json
       body:
@@ -181,7 +181,7 @@ endpoints:
     path: /v2/people/lookup
     body_allowlist: true
     name: "Reverse phone lookup: LinkedIn profile from a phone"
-    summary: "Find the person behind a phone number: their LinkedIn URL, name, title and company, for up to 25 numbers per call, one result per key. A key can match up to 5 people, all returned for the one key price. Keys are normalised before matching."
+    summary: "Find the person behind a phone number: their LinkedIn URL, name, title and employer, for up to 25 numbers per call, one result per key. A key can match up to 5 people, all returned for the one key price. Keys are normalised before matching."
     input:
       bodyType: json
       body:
