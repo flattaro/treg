@@ -17,13 +17,16 @@ class Check:
     """The opt-in check after a hit (`X-Treg-Route-Verify`): one more call, to `endpoint`, with the
     hit's `field` as its identity key of the same name. `prefer` orders that call's providers only.
     `when` is an expression over `{field: value}`; a hit failing it is not checked, for `skip_reason`,
-    and `skip_advice` replaces the find's advice then: the caller already asked for the check."""
+    and `skip_advice` replaces the find's advice then: the caller already asked for the check.
+    The check wins over the finder's own `verified`: a completed verdict other than `valid` on a
+    `verified: true` hit attaches `disagree_advice`, and the finder's answer is left as it said."""
     endpoint: str
     field: str
     prefer: tuple[str, ...] = ()
     when: str = ""
     skip_reason: str = ""
     skip_advice: str = ""
+    disagree_advice: str = ""
 
 
 @dataclass(frozen=True)
@@ -64,6 +67,9 @@ class Contract:
     verdict_from: str = ""
     verdict_words: tuple[str, ...] = ()
     verdict_map: dict[str, str] = field(default_factory=dict)
+    # The verdict words that DECIDE (`valid`, `invalid`): under `X-Treg-Route-Decisive` any other
+    # word (unknown, catch-all, risky) sends the call on to the next provider. Empty = refused.
+    verdict_decisive: tuple[str, ...] = ()
     # The check a caller may ask for with `X-Treg-Route-Verify`; None = the header is refused.
     check: Check | None = None
     # The output field two providers must agree on under `X-Treg-Route-Confirm`: a hit counts only
@@ -79,6 +85,10 @@ class Contract:
     # hit ranks ahead of how many keys it uses. Left false on searches, where `{title,
     # company_domain}` and `{company_domain}` are different questions.
     one_subject: bool = False
+    # The output fields a COMPLETE answer carries under `X-Treg-Route-Complete`: an answer missing
+    # any is weak, and an adapter that cannot map them all is asked last. Empty = more than half of
+    # the output fields, the generic rule. A profile without a headline is not a profile.
+    complete: tuple[str, ...] = ()
 
     @property
     def required_output(self) -> tuple[str, ...]:
@@ -229,8 +239,16 @@ def parse_contracts(doc: dict) -> dict[str, Contract]:
             confirm=_parse_confirm(cap, c.get("confirm"), c.get("output") or {}),
             empty_is_failure=bool(c.get("empty_is_failure", False)),
             one_subject=bool(c.get("one_subject", False)),
+            complete=_parse_complete(cap, c.get("complete"), c.get("output") or {}),
             **_parse_verdict(cap, c.get("verdict")))
     return out
+
+
+def _parse_complete(cap: str, raw, output: dict) -> tuple[str, ...]:
+    fields = tuple(str(k) for k in raw or ())
+    if unknown := [k for k in fields if k not in output]:
+        raise ValueError(f"contract {cap}: complete names fields outside its output: {', '.join(unknown)}")
+    return fields
 
 
 def _parse_check(cap: str, raw, output: dict) -> Check | None:
@@ -242,10 +260,13 @@ def _parse_check(cap: str, raw, output: dict) -> Check | None:
         raise ValueError(f"contract {cap}: check `when` and `skip_reason` come together")
     if raw.get("skip_advice") and not raw.get("when"):
         raise ValueError(f"contract {cap}: check `skip_advice` needs a `when`")
+    if raw.get("disagree_advice") and "verified" not in output:
+        raise ValueError(f"contract {cap}: check `disagree_advice` needs a `verified` output")
     return Check(endpoint=str(raw["endpoint"]), field=str(raw["field"]),
                  prefer=tuple(str(p).lower() for p in raw.get("prefer") or ()),
                  when=str(raw.get("when") or ""), skip_reason=str(raw.get("skip_reason") or ""),
-                 skip_advice=str(raw.get("skip_advice") or ""))
+                 skip_advice=str(raw.get("skip_advice") or ""),
+                 disagree_advice=str(raw.get("disagree_advice") or ""))
 
 
 def _parse_confirm(cap: str, raw, output: dict) -> str:
@@ -263,7 +284,11 @@ def _parse_verdict(cap: str, raw) -> dict:
     mapping = {_verdict_key(k) or str(k): str(v) for k, v in (raw.get("map") or {}).items()}
     if not raw.get("from") or not words or any(v not in words for v in mapping.values()):
         raise ValueError(f"contract {cap}: verdict needs `from`, `words`, and a `map` into those words")
-    return {"verdict_from": str(raw["from"]), "verdict_words": words, "verdict_map": mapping}
+    decisive = tuple(str(w) for w in raw.get("decisive") or ())
+    if any(w not in words for w in decisive):
+        raise ValueError(f"contract {cap}: verdict `decisive` must be among its `words`")
+    return {"verdict_from": str(raw["from"]), "verdict_words": words, "verdict_map": mapping,
+            "verdict_decisive": decisive}
 
 
 def parse_adapters(doc: dict) -> dict[str, Adapter]:
