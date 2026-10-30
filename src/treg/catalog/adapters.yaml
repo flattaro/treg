@@ -2545,7 +2545,7 @@ adapters:
 
   # ---- people.* coverage sweep (2026-08-28): the DSL / list-shaped providers ------------------
   aviato.people.search:
-    # evidence only: headline `fts` ORs q's words unranked, so every brief got the same rows as a hit
+    # evidence only: `fts` ORs q's words unranked, so every brief got the same rows
     route: false
     accepts: [[q]]
     in:  {}
