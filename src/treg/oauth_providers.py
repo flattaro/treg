@@ -1343,12 +1343,12 @@ MOBIUSENGINE_JOBS = OAuthProvider(
     # The key rides in x-api-key (Authorization: Bearer is accepted too); the header keeps it out of logged URLs.
     token_header="x-api-key",
     token_format="{secret}",
-    setup_url="https://jobs.arihaan.ai/pay-per-job",
+    setup_url="https://jobs.mobiusengine.ai/login",
     setup_action_label="Get your MobiusEngine.ai Jobs Data API key",
     setup_steps=(
-        "Open the pay-per-job page and sign in with Google. New accounts start with a $1 credit.",
+        "Open jobs.mobiusengine.ai and sign in with Google. New accounts start with a $1 credit.",
         "Copy the API key shown on your first sign-in (it is shown once; more can be made under API keys).",
-        "Add funds under Pay per job when the credit is used: calls are charged per job from that balance.",
+        "Add funds on your account page (jobs.mobiusengine.ai/app) when the credit is used: calls are charged per job from that balance.",
     ),
     setup_note="Billed per job from a prepaid balance. The balance, usage, meta and rates routes are free.",
     auth_uri="", token_uri="",
@@ -1357,7 +1357,7 @@ MOBIUSENGINE_JOBS = OAuthProvider(
     category="Jobs data",
     summary="Search and count 4M+ open jobs from employers' own career sites, including Workday, Greenhouse, Lever, Ashby and SmartRecruiters, with an optional 300-character description preview.",
     base_url="https://jobs-api.arihaan.ai",
-    docs_url="https://jobs.arihaan.ai/docs",
+    docs_url="https://jobs.mobiusengine.ai/docs",
     probe_path="/v1/balance",  # free; a bad or missing key gets HTTP 401 {"error": {"code": "unauthorized", ...}}
 )
 
